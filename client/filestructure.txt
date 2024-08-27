@@ -1,0 +1,17 @@
+src/
+|-- assets/
+|-- components/
+|   |-- BlogPost/
+|   |   |-- BlogPostList.js
+|   |   |-- BlogPostForm.js
+|   |-- Auth/
+|   |   |-- Login.js
+|   |   |-- Signup.js
+|   |-- User/
+|   |   |-- UserProfile.js
+|-- pages/
+|   |-- HomePage.js
+|   |-- BlogPage.js
+|-- App.js
+|-- index.js
+|-- api.js
