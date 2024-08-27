@@ -1,0 +1,35 @@
+server/
+│
+├── src/
+│   ├── controllers/                # Route handlers
+│   │   ├── authController.js
+│   │   ├── postController.js
+│   │   └── userController.js
+│   ├── middleware/                 # Middleware functions
+│   │   ├── authMiddleware.js
+│   │   ├── errorMiddleware.js
+│   │   └── ...
+│   ├── models/                     # Database models (schemas)
+│   │   ├── User.js
+│   │   ├── Post.js
+│   │   └── ...
+│   ├── routes/                     # API routes
+│   │   ├── authRoutes.js
+│   │   ├── postRoutes.js
+│   │   └── userRoutes.js
+│   ├── services/                   # Business logic and services
+│   │   ├── redisClient.js          # Redis client setup
+│   │   ├── emailService.js
+│   │   └── ...
+│   ├── utils/                      # Utility functions and helpers
+│   │   ├── tokenUtils.js
+│   │   ├── logger.js
+│   │   └── ...
+│   ├── config.js                   # Configuration (DB, Redis, etc.)
+│   ├── app.js                      # Main Express app
+│   ├── server.js                   # Entry point for the server
+│   └── ...
+│
+├── .env                            # Environment variables
+├── package.json                    # Backend dependencies and scripts
+└── README.md                       # Project overview and setup instructions
