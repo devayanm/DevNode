@@ -73,7 +73,7 @@ const BlogReadingPage = () => {
                                     label={blog.title}
                                     clickable
                                     component="a"
-                                    href={`/blogs/${blog._id}`}
+                                    href={`/posts/${blog._id}`}
                                     sx={{ mr: 1, mb: 1 }}
                                 />
                             ))
