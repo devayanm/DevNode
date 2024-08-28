@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Paper, Box } from '@mui/material';
+import { Container, Paper, Box, Tabs, Tab } from '@mui/material';
 import { styled } from '@mui/system';
 import Login from '../components/Auth/Login';
 import Signup from '../components/Auth/Signup';
@@ -21,24 +21,39 @@ const FormPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const AuthForm = () => {
-  const [currentForm, setCurrentForm] = useState('login');
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue);
+  };
 
   const renderForm = () => {
-    switch (currentForm) {
-      case 'login':
-        return <Login onSwitchForm={setCurrentForm} />;
-      case 'signup':
-        return <Signup onSwitchForm={setCurrentForm} />;
-      case 'forgotPassword':
-        return <ForgotPassword onSwitchForm={setCurrentForm} />;
+    switch (currentTab) {
+      case 0:
+        return <Login />;
+      case 1:
+        return <Signup />;
+      case 2:
+        return <ForgotPassword />;
       default:
-        return <Login onSwitchForm={setCurrentForm} />;
+        return <Login />;
     }
   };
 
   return (
     <AuthContainer>
       <FormPaper>
+        <Tabs
+          value={currentTab}
+          onChange={handleTabChange}
+          aria-label="authentication tabs"
+          centered
+          sx={{ marginBottom: 2 }}
+        >
+          <Tab label="Login" />
+          <Tab label="Sign Up" />
+          <Tab label="Forgot Password" />
+        </Tabs>
         <Box>{renderForm()}</Box>
       </FormPaper>
     </AuthContainer>

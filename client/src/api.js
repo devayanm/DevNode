@@ -55,6 +55,15 @@ export const updateUserProfile = async (profileData) => {
     }
 };
 
+export const forgotPassword = async (email) => {
+    try {
+        const response = await api.post('/api/auth/forgotpassword', { email });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const createBlogPost = async (blogData) => {
     try {
         const response = await api.post('/api/posts', blogData);
@@ -113,6 +122,21 @@ export const deleteComment = async (blogId, commentId) => {
     try {
         const response = await api.delete(`/api/posts/${blogId}/comments/${commentId}`);
         return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const uploadImage = async (file) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await api.post('/api/cloud/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
     } catch (error) {
         throw error;
     }

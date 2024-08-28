@@ -18,13 +18,13 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/auth" element={<AuthForm />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/create-blog" element={<CreateBlogPage />} />
-          <Route path="/posts/:postId" element={<BlogReadingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/create-blog" element={<CreateBlogPage />} />
+          <Route path="/posts/:postId" element={<BlogReadingPage />} />
         </Routes>
       </Layout>
     </Router>

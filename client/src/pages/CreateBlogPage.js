@@ -95,7 +95,7 @@ const CreateBlogPage = () => {
         readOnly: false,
       });
       editorRef.current.__quill = quill;
-      editorRef.current.addEventListener("text-change", () => {
+      quill.on("text-change", () => {
         saveContent();
       });
     }
@@ -111,8 +111,8 @@ const CreateBlogPage = () => {
 
   const saveContent = () => {
     if (editorRef.current) {
-      const quill = editorRef.current.querySelector(".ql-editor");
-      setContent(quill.innerHTML);
+      const quill = editorRef.current.__quill;
+      setContent(quill.root.innerHTML);
     }
   };
 

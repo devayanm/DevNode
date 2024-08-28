@@ -10,9 +10,10 @@ import {
   Box,
   CircularProgress,
   Alert,
-  Paper
+  Paper,
 } from "@mui/material";
 import { getAllBlogPosts } from "../api";
+import heroImage from "../assets/hero.jpg";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -52,42 +53,46 @@ const HomePage = () => {
           mb: 6,
         }}
       >
-        <Box
-          sx={{
-            backgroundImage: "url(hero-image.jpg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: 350,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            "::before": {
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-            },
-          }}
-        >
-          <Box sx={{ position: "relative", zIndex: 1 }}>
-            <Typography
-              variant="h2"
-              component="h1"
-              sx={{ fontWeight: "bold", color: "#fff" }}
-            >
-              Explore <span style={{ color: "#1976d2" }}>Learn</span> Build
-            </Typography>
-            <Typography variant="h5" component="p" sx={{ mt: 2, mb: 4 }}>
-              Join us on a journey of discovery in the world of development.
-            </Typography>
-            <Button variant="contained" color="primary" size="large" href="/blog">
-              Get Started
-            </Button>
-          </Box>
+        <Box sx={{ position: "relative", zIndex: 1 }}>
+          <Typography
+            variant="h1"
+            component="h1"
+            sx={{
+              fontWeight: "1000",
+              backgroundImage: `url(${heroImage})`,
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              textFillColor: "transparent",
+              mb: 2,
+            }}
+          >
+            Explore <span style={{ color: "#1976d2" }}>Learn</span> Build
+          </Typography>
+          <Typography
+            variant="h5"
+            component="p"
+            sx={{
+              color: "#fff",
+              background: "linear-gradient(to right, #ff7e5f, #feb47b)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              mb: 4,
+            }}
+          >
+            Join us on a journey of discovery in the world of development.
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            href="/blog"
+            sx={{ borderRadius: "12px", fontWeight: "bold" }}
+          >
+            Get Started
+          </Button>
         </Box>
       </Box>
 
@@ -101,23 +106,34 @@ const HomePage = () => {
               sx={{
                 borderBottom: "3px solid #1976d2",
                 display: "inline-block",
+                mb: 2,
+                fontWeight: "bold",
               }}
             >
               Categories
             </Typography>
-            <ul>
+            <ul style={{ listStyleType: "none", padding: 0 }}>
               <li>
-                <Button href="/category/javascript" sx={{ color: "#1976d2" }}>
+                <Button
+                  href="/category/javascript"
+                  sx={{ color: "#1976d2", textTransform: "capitalize" }}
+                >
                   JavaScript
                 </Button>
               </li>
               <li>
-                <Button href="/category/react" sx={{ color: "#1976d2" }}>
+                <Button
+                  href="/category/react"
+                  sx={{ color: "#1976d2", textTransform: "capitalize" }}
+                >
                   React
                 </Button>
               </li>
               <li>
-                <Button href="/category/css" sx={{ color: "#1976d2" }}>
+                <Button
+                  href="/category/css"
+                  sx={{ color: "#1976d2", textTransform: "capitalize" }}
+                >
                   CSS
                 </Button>
               </li>
@@ -131,18 +147,35 @@ const HomePage = () => {
                 borderBottom: "3px solid #1976d2",
                 display: "inline-block",
                 mt: 4,
+                mb: 2,
+                fontWeight: "bold",
               }}
             >
               Tags
             </Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-              <Button variant="outlined" size="small" href="/tag/tutorial">
+              <Button
+                variant="outlined"
+                size="small"
+                href="/tag/tutorial"
+                sx={{ borderRadius: "12px" }}
+              >
                 Tutorial
               </Button>
-              <Button variant="outlined" size="small" href="/tag/webdev">
+              <Button
+                variant="outlined"
+                size="small"
+                href="/tag/webdev"
+                sx={{ borderRadius: "12px" }}
+              >
                 Web Dev
               </Button>
-              <Button variant="outlined" size="small" href="/tag/frontend">
+              <Button
+                variant="outlined"
+                size="small"
+                href="/tag/frontend"
+                sx={{ borderRadius: "12px" }}
+              >
                 Frontend
               </Button>
               {/* Add more tags */}
@@ -160,39 +193,83 @@ const HomePage = () => {
               sx={{
                 borderBottom: "3px solid #1976d2",
                 display: "inline-block",
-                marginBottom: 4,
+                mb: 4,
+                fontWeight: "bold",
+                color: "#333",
               }}
             >
-              Posts
+              Latest Posts
             </Typography>
             {loading ? (
-              <CircularProgress />
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                height="200px"
+              >
+                <CircularProgress />
+              </Box>
             ) : error ? (
               <Alert severity="error">{error}</Alert>
             ) : (
               <Grid container spacing={4}>
                 {posts.map((post) => (
-                  <Grid item xs={12} sm={6} key={post._id}>
+                  <Grid item xs={12} sm={6} md={4} key={post._id}>
                     <Card
                       sx={{
                         height: "100%",
                         display: "flex",
                         flexDirection: "column",
                         boxShadow: 3,
-                        transition: "transform 0.3s",
-                        "&:hover": { transform: "scale(1.05)" },
+                        transition: "transform 0.3s, box-shadow 0.3s",
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                        "&:hover": {
+                          transform: "scale(1.03)",
+                          boxShadow: 6,
+                        },
                       }}
                     >
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          height: "200px",
+                          width: "100%",
+                          objectFit: "cover",
+                        }}
+                        image={
+                          post.image || "https://via.placeholder.com/400x200"
+                        }
+                        alt={post.title}
+                      />
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Typography variant="h6" component="h2" gutterBottom>
                           {post.title}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" paragraph>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          paragraph
+                        >
                           {post.excerpt}
                         </Typography>
-                        <Button size="small" color="primary" href={`/posts/${post._id}`}>
-                          Learn More &rarr;
-                        </Button>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Typography variant="body2" color="textSecondary">
+                            {new Date(post.createdAt).toLocaleDateString()}
+                          </Typography>
+                          <Button
+                            size="small"
+                            color="primary"
+                            href={`/posts/${post._id}`}
+                            sx={{ fontWeight: "bold" }}
+                          >
+                            Read More &rarr;
+                          </Button>
+                        </Box>
                       </CardContent>
                     </Card>
                   </Grid>
@@ -200,7 +277,12 @@ const HomePage = () => {
               </Grid>
             )}
             <Box sx={{ textAlign: "center", mt: 4 }}>
-              <Button variant="outlined" color="primary" href="/blog">
+              <Button
+                variant="contained"
+                color="primary"
+                href="/blog"
+                sx={{ fontWeight: "bold", borderRadius: "12px" }}
+              >
                 View All Posts
               </Button>
             </Box>

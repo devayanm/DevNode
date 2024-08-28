@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { TextField, Button, Typography, Alert, CircularProgress, Box, Snackbar } from '@mui/material';
-import { styled } from '@mui/system';
-import { login } from '../../api';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  CircularProgress,
+  Box,
+  Snackbar,
+  Link,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import { login } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const FormContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   padding: theme.spacing(3),
-  maxWidth: '400px',
-  margin: 'auto',
+  maxWidth: "400px",
+  margin: "auto",
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
   backgroundColor: theme.palette.background.paper,
@@ -26,42 +33,37 @@ const FormButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }));
 
-const SwitchButton = styled(Button)(({ theme }) => ({
-  marginTop: theme.spacing(1),
+const LinkContainer = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 }));
 
-const LoginForm = ({ onSwitchForm }) => {
+const Login = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
-      password: Yup.string()
-        .required('Password is required'),
-    }),
-    onSubmit: async (values, { setSubmitting, setErrors }) => {
-      try {
-        setSubmitting(true);
-        const response = await login(values);
-        localStorage.setItem('token', response.data.token);
-        setOpenSnackbar(true); 
-        setTimeout(() => {
-          navigate('/'); 
-        }, 2000); 
-      } catch (error) {
-        setErrors({ submit: 'Invalid email or password' });
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await login({ email, password });
+      localStorage.setItem("token", response.data.token);
+      setOpenSnackbar(true);
+      setTimeout(() => {
+        navigate("/profile");
+      }, 2000);
+    } catch (error) {
+      setError("Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -70,8 +72,12 @@ const LoginForm = ({ onSwitchForm }) => {
   return (
     <FormContainer>
       <FormTitle variant="h4">Login</FormTitle>
-      {formik.errors.submit && <Alert severity="error" sx={{ width: '100%', mb: 2 }}>{formik.errors.submit}</Alert>}
-      <form onSubmit={formik.handleSubmit}>
+      {error && (
+        <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+      <form onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -79,12 +85,8 @@ const LoginForm = ({ onSwitchForm }) => {
           fullWidth
           label="Email Address"
           type="email"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
           autoFocus
         />
@@ -95,34 +97,31 @@ const LoginForm = ({ onSwitchForm }) => {
           fullWidth
           label="Password"
           type="password"
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
         />
-        <FormButton 
-          type="submit" 
-          fullWidth 
-          variant="contained" 
-          color="primary" 
-          disabled={formik.isSubmitting}
+        <FormButton
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          disabled={loading}
         >
-          {formik.isSubmitting ? <CircularProgress size={24} /> : 'Login'}
+          {loading ? <CircularProgress size={24} /> : "Login"}
         </FormButton>
       </form>
-      <SwitchButton fullWidth onClick={() => onSwitchForm('signup')}>
-        Don't have an account? Sign Up
-      </SwitchButton>
-      <SwitchButton fullWidth onClick={() => onSwitchForm('forgotPassword')}>
-        Forgot Password
-      </SwitchButton>
-
+      <LinkContainer>
+        <Link href="/signup" variant="body2">
+          Don't have an account? Sign Up
+        </Link>
+        <Link href="/forgot-password" variant="body2" sx={{ mt: 1 }}>
+          Forgot your password?
+        </Link>
+      </LinkContainer>
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={2000} // Duration in milliseconds
+        autoHideDuration={2000}
         onClose={handleCloseSnackbar}
         message="Login successful"
         action={
@@ -135,4 +134,4 @@ const LoginForm = ({ onSwitchForm }) => {
   );
 };
 
-export default LoginForm;
+export default Login;
