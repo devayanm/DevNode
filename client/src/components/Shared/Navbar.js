@@ -18,21 +18,20 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await getUserProfile();
-        if (response.status === 200) {
-          setIsAuthenticated(true);
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+      getUserProfile()
+        .then((response) => {
           setUser(response.data);
-        } else {
+        })
+        .catch(() => {
           setIsAuthenticated(false);
-        }
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-
-    checkAuth();
+          localStorage.removeItem("token");
+        });
+    } else {
+      setIsAuthenticated(false);
+    }
   }, []);
 
   const handleLogout = async () => {

@@ -57,6 +57,7 @@ const Login = () => {
       setOpenSnackbar(true);
       setTimeout(() => {
         navigate("/profile");
+        window.location.reload();
       }, 2000);
     } catch (error) {
       setError("Invalid email or password");
