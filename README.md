@@ -2,25 +2,40 @@
   <img src="https://your-logo-url.com/logo.png" alt="DevNode Logo" width="200">
 </p>
 
-<h1 align="center">DevNode - Empowering Developers to Share Knowledge</h1>
+<h1 align="center">DevNode</h1>
+<h2 align="center">Empowering Developers to Share Knowledge</h2>
 
 <p align="center">
   <strong>A modern blogging platform for developers, featuring real-time collaboration, GitHub integration, and a sleek UI.</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/devayanm/devnode/actions/workflows/ci.yml"><img src="https://github.com/devayanm/devnode/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/devayanm/devnode"><img src="https://img.shields.io/github/stars/devayanm/devnode?style=social" alt="GitHub stars"></a>
-  <a href="https://github.com/devayanm/devnode/issues"><img src="https://img.shields.io/github/issues/devayanm/devnode" alt="GitHub issues"></a>
-  <a href="https://github.com/devayanm/devnode/blob/main/LICENSE"><img src="https://img.shields.io/github/license/devayanm/devnode" alt="GitHub license"></a>
+  <a href="https://github.com/devayanm/devnode/actions/workflows/ci.yml">
+    <img src="https://github.com/devayanm/devnode/actions/workflows/ci.yml/badge.svg" alt="CI">
+  </a>
+  <a href="https://github.com/devayanm/devnode">
+    <img src="https://img.shields.io/github/stars/devayanm/devnode?style=social" alt="GitHub stars">
+  </a>
+  <a href="https://github.com/devayanm/devnode/issues">
+    <img src="https://img.shields.io/github/issues/devayanm/devnode" alt="GitHub issues">
+  </a>
+  <a href="https://github.com/devayanm/devnode/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/devayanm/devnode" alt="GitHub license">
+  </a>
+  <a href="https://devnode.vercel.app">
+    <img src="https://img.shields.io/badge/Deployed%20On-Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel">
+  </a>
 </p>
 
 <p align="center">
   <a href="#features">Features</a> •
+  <a href="#technologies-used">Technologies Used</a> •
+  <a href="#project-structure">Project Structure</a> •
   <a href="#installation">Installation</a> •
   <a href="#running-the-application">Running the Application</a> •
   <a href="#contributing">Contributing</a> •
-  <a href="#license">License</a>
+  <a href="#license">License</a> •
+  <a href="#contact">Contact</a>
 </p>
 
 ---
@@ -41,39 +56,35 @@
 
 ## 🌟 Technologies Used
 
-DevNode is built with a powerful stack of modern technologies to ensure a seamless, scalable, and high-performing blogging platform. Here’s a breakdown of the key technologies used:
+DevNode leverages a powerful stack of technologies for a seamless blogging experience:
 
 ### **Frontend**
-- **React** ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white): A JavaScript library for building user interfaces, focusing on component-based architecture and declarative programming.
-- **Material-UI** ![Material-UI](https://img.shields.io/badge/Material--UI-007FFF?style=flat-square&logo=material-ui&logoColor=white): A popular React UI framework that provides a wide range of customizable and accessible components.
-- **Quill** ![Quill](https://img.shields.io/badge/Quill-000000?style=flat-square&logo=quill&logoColor=white): A modern rich text editor for the web, offering extensive formatting options.
-- **Formik** ![Formik](https://img.shields.io/badge/Formik-000000?style=flat-square&logo=formik&logoColor=white): A library that simplifies the management of form state, validation, and submission in React applications.
-- **Yup** ![Yup](https://img.shields.io/badge/Yup-000000?style=flat-square&logo=yup&logoColor=white): A schema builder for value parsing and validation, integrated with Formik to ensure robust form validation.
+
+- **React** ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white): A JavaScript library for building user interfaces.
+- **Material-UI** ![Material-UI](https://img.shields.io/badge/Material--UI-007FFF?style=flat-square&logo=material-ui&logoColor=white): A UI framework with a comprehensive set of components.
+- **Quill** ![Quill](https://img.shields.io/badge/Quill-000000?style=flat-square&logo=quill&logoColor=white): A modern rich text editor for the web.
+- **Formik** ![Formik](https://img.shields.io/badge/Formik-000000?style=flat-square&logo=formik&logoColor=white): A library for managing form state and validation.
+- **Yup** ![Yup](https://img.shields.io/badge/Yup-000000?style=flat-square&logo=yup&logoColor=white): A schema builder for value parsing and validation.
 
 ### **Backend**
-- **Node.js** ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white): A JavaScript runtime environment that allows the development of scalable server-side applications.
+
+- **Node.js** ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white): A JavaScript runtime environment for server-side applications.
 - **Express.js** ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white): A minimal and flexible Node.js web application framework.
-- **MongoDB** ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white): A NoSQL database designed for scalability and flexibility.
-- **Mongoose** ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat-square&logo=mongoose&logoColor=white): An ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **MongoDB** ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white): A NoSQL database for scalable and flexible data storage.
+- **Mongoose** ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat-square&logo=mongoose&logoColor=white): ODM library for MongoDB and Node.js.
 
 ### **Image & Media Management**
-- **Cloudinary** ![Cloudinary](https://img.shields.io/badge/Cloudinary-8F4DAB?style=flat-square&logo=cloudinary&logoColor=white): A comprehensive cloud service that manages images and videos in the cloud.
 
-### **Real-time Collaboration**
-- **WebSockets** ![WebSockets](https://img.shields.io/badge/WebSockets-000000?style=flat-square&logo=websockets&logoColor=white): A communication protocol that enables interactive communication sessions between the user’s browser and the server.
+- **Cloudinary** ![Cloudinary](https://img.shields.io/badge/Cloudinary-8F4DAB?style=flat-square&logo=cloudinary&logoColor=white): A cloud service for managing images and videos.
 
 ### **Authentication & Security**
-- **JWT (JSON Web Tokens)** ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=json-web-tokens&logoColor=white): A compact, URL-safe means of representing claims to be transferred between two parties.
 
-### **DevOps & Deployment**
-- **Docker** ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white): A platform that automates the deployment of applications inside lightweight containers.
-- **Nginx** ![Nginx](https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white): A high-performance web server and reverse proxy server.
+- **JWT (JSON Web Tokens)** ![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=json-web-tokens&logoColor=white): Compact means of representing claims between two parties.
 
 ### **Others**
-- **ESLint** ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white): A tool for maintaining code quality and consistency.
-- **Prettier** ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white): A tool for ensuring consistent code formatting.
 
-
+- **Prettier** ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white): Ensures consistent code formatting.
+- **Vercel** ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white): Deployment platform for static sites and serverless functions.
 
 ---
 
@@ -125,14 +136,12 @@ DevNode/
 2. **Install dependencies:**
 
     For the backend:
-
     ```bash
     cd server
     npm install
     ```
 
     For the frontend:
-
     ```bash
     cd client
     npm install
@@ -140,81 +149,87 @@ DevNode/
 
 3. **Set up environment variables:**
 
-    Create a `.env` file in the `server` directory using `.env.example` as a template and fill in the necessary variables.
+    Create a `.env` file in the `server` directory using `.env.example` as a template and fill in your environment variables.
 
----
+4. **Run the application:**
 
-## Running the Application
+    - **Backend:** 
+        ```bash
+        cd server
+        npm start
+        ```
 
-### Using Docker
+    - **Frontend:** 
+        ```bash
+        cd client
+        npm start
+        ```
 
-1. **Build and start the Docker containers:**
+    The application will be accessible at [http://localhost:3000](http://localhost:3000) by default.
 
-    ```bash
-    docker-compose up --build
-    ```
+5. **Optional - Run with Docker:**
 
-2. **Access the application:**
-
-    - Frontend: `http://localhost:3000`
-    - Backend: `http://localhost:5000/api`
-
-### Without Docker
-
-1. **Start the backend server:**
-
-    ```bash
-    cd server
-    npm run dev
-    ```
-
-2. **Start the frontend server:**
+    To run the application with Docker, make sure Docker is installed and then use the following commands:
 
     ```bash
-    cd client
-    npm start
+    docker-compose up
     ```
+
+    This will build and start the containers for both the frontend and backend.
 
 ---
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions to DevNode! To get started:
 
-1. **Fork the repository.**
-2. **Create a feature branch:**
-
+1. **Fork the repository** on GitHub.
+2. **Clone your forked repository** to your local machine.
+3. **Create a new branch** for your changes:
     ```bash
-    git checkout -b feature/YourFeatureName
+    git checkout -b my-feature-branch
     ```
-
-3. **Commit your changes:**
-
+4. **Make your changes** and **commit them**:
     ```bash
-    git commit -m "Add some feature"
+    git commit -am 'Add new feature'
     ```
-
-4. **Push to your branch:**
-
+5. **Push your changes** to your forked repository:
     ```bash
-    git push origin feature/YourFeatureName
+    git push origin my-feature-branch
     ```
+6. **Submit a pull request** on GitHub with a clear description of your changes.
 
-5. **Create a Pull Request.**
+For more details, please refer to our [Contributing Guidelines](CONTRIBUTING.md).
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+DevNode is licensed under the [MIT License](LICENSE).
 
 ---
 
 ## Contact
 
-For any inquiries, issues, or feature requests, please reach out to:
+For any questions or support, please reach out to us:
+
+- **Email:** [support@devnode.com](mailto:support@devnode.com)
+- **Twitter:** [@devnode](https://twitter.com/devnode)
+- **GitHub:** [DevNode Repository](https://github.com/devayanm/devnode)
 
 <p align="center">
-  <a href="https://github.com/devayanm"><img src="https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github&logoColor=white"></a>
-  <a href="mailto:devayan9689@gmail.com"><img src="https://img.shields.io/badge/-Email-D14836?style=for-the-badge&logo=gmail&logoColor=white"></a>
+  <img src="https://img.shields.io/badge/Connect%20With%20Us-@devnode-00A3E0?style=flat-square&logo=twitter&logoColor=white" alt="Twitter">
+  <img src="https://img.shields.io/badge/Follow%20Us%20On%20GitHub-DevNode-000000?style=flat-square&logo=github&logoColor=white" alt="GitHub">
 </p>
+
+---
+
+<p align="center">
+  <a href="https://devnode.vercel.app">
+    <img src="https://your-deployed-app-screenshot-url.com/screenshot.png" alt="DevNode Screenshot" width="800">
+  </a>
+</p>
+
+---
+
+**DevNode** – Empowering developers to share and grow together.
