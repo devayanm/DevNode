@@ -1,11 +1,17 @@
 import React from "react";
-import { Box, Typography, Divider, Button } from "@mui/material";
+import { Box, Typography, Divider, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import IconButton from '@mui/material/IconButton';
 
 const Footer = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  if (isMobile) {
+    return null;
+  }
+
   return (
     <Box mt={8} py={4} sx={{ backgroundColor: "#f5f5f5", textAlign: "center" }}>
       <Divider sx={{ my: 2 }} />
