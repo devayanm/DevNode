@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://your-logo-url.com/logo.png" alt="DevNode Logo" width="200">
+  <img src="client/src/assets/devnode-nav.png" alt="DevNode Logo" width="200">
 </p>
 
 <h1 align="center">DevNode</h1>
