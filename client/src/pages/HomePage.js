@@ -55,8 +55,8 @@ const HomePage = () => {
       >
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <Typography
-            variant="h1"
-            component="h1"
+            variant="h2"
+            component="h2"
             sx={{
               fontWeight: "1000",
               backgroundImage: `url(${heroImage})`,
@@ -69,7 +69,7 @@ const HomePage = () => {
               mb: 2,
             }}
           >
-            Explore <span style={{ color: "#1976d2" }}>Learn</span> Build
+            Explore Learn Build
           </Typography>
           <Typography
             variant="h5"
