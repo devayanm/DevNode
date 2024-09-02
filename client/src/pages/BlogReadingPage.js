@@ -34,30 +34,39 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-// Styled components
 const HeroSection = styled(Box)(({ theme }) => ({
   position: "relative",
   height: "200px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  textShadow: "2px 2px 4px rgba(0,0,0,0.6)",
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(4),
   padding: theme.spacing(2),
   textAlign: "center",
+  [theme.breakpoints.down("sm")]: {
+    height: "150px",
+    padding: theme.spacing(1),
+  },
 }));
 
 const AuthorInfo = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   marginBottom: theme.spacing(2),
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
 }));
 
 const ContentSection = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(4),
   lineHeight: 1.8,
   fontSize: "1.1rem",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "1rem",
+  },
 }));
 
 const RelatedPostsSection = styled(Box)(({ theme }) => ({
@@ -140,7 +149,11 @@ const BlogReadingPage = () => {
       {blogPost && (
         <Box>
           <HeroSection>
-            <Typography variant="h2" component="h1">
+            <Typography
+              variant="h2"
+              component="h1"
+              sx={{ fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" } }}
+            >
               {blogPost.title}
             </Typography>
           </HeroSection>
@@ -149,7 +162,11 @@ const BlogReadingPage = () => {
             <Avatar
               src={blogPost.author?.avatar || defaultAuthor.avatar}
               alt={blogPost.author?.name || defaultAuthor.name}
-              sx={{ mr: 2 }}
+              sx={{
+                mr: 2,
+                width: { xs: 40, sm: 56 },
+                height: { xs: 40, sm: 56 },
+              }}
             />
             <Typography variant="body2" color="text.secondary">
               <strong>{blogPost.author?.name || defaultAuthor.name}</strong> -{" "}
@@ -167,8 +184,15 @@ const BlogReadingPage = () => {
 
           <Divider sx={{ my: 4 }} />
 
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
-            <Box>
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            }}
+          >
+            <Box sx={{ display: "flex", mb: { xs: 2, sm: 0 } }}>
               <IconButton color="warning">
                 <BookmarkIcon />
               </IconButton>
@@ -228,7 +252,11 @@ const BlogReadingPage = () => {
                 <Avatar
                   src={blogPost.author?.avatar || defaultAuthor.avatar}
                   alt={blogPost.author?.name || defaultAuthor.name}
-                  sx={{ mr: 2 }}
+                  sx={{
+                    mr: 2,
+                    width: { xs: 40, sm: 56 },
+                    height: { xs: 40, sm: 56 },
+                  }}
                 />
                 <Typography variant="body2" color="text.secondary">
                   <strong>{blogPost.author?.name || defaultAuthor.name}</strong>
