@@ -11,8 +11,6 @@ import {
   ListItemText,
   Avatar,
   Button,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import BlogPostList from "../components/BlogPost/BlogPostList";
@@ -59,7 +57,6 @@ const BlogPage = () => {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={4}>
-        {/* Main Content */}
         <Grid item xs={12} md={8}>
           <Box my={4} textAlign="center">
             <Typography

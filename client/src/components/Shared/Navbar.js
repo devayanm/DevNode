@@ -7,7 +7,6 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
-  Badge,
   Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -108,7 +107,11 @@ const Navbar = () => {
                   <img
                     src={logoImage}
                     alt="DevNode Logo"
-                    style={{ width: "auto", height: "40px", borderRadius: "25px" }}
+                    style={{
+                      width: "auto",
+                      height: "40px",
+                      borderRadius: "25px",
+                    }}
                   />
                 </Typography>
               </Toolbar>
@@ -216,7 +219,7 @@ const Navbar = () => {
             >
               <Button
                 color="inherit"
-                onClick={() => navigate("/create-blog")}
+                onClick={() => navigate("/blog")}
                 sx={{
                   mx: 1,
                   fontWeight: "bold",
@@ -227,8 +230,8 @@ const Navbar = () => {
                   justifyItems: "center",
                 }}
               >
-                <PostAddIcon />
-                Create
+                <ExploreIcon />
+                Blogs
               </Button>
               <Button
                 color="inherit"
@@ -248,7 +251,7 @@ const Navbar = () => {
               </Button>
               <Button
                 color="inherit"
-                onClick={() => navigate("/blog")}
+                onClick={() => navigate("/create-blog")}
                 sx={{
                   mx: 1,
                   fontWeight: "bold",
@@ -259,8 +262,8 @@ const Navbar = () => {
                   justifyItems: "center",
                 }}
               >
-                <ExploreIcon />
-                Blogs
+                <PostAddIcon />
+                Create
               </Button>
             </Box>
             <Box display="flex" alignItems="center">

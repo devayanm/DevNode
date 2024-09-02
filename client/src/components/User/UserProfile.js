@@ -13,14 +13,9 @@ import {
   IconButton,
   Snackbar,
 } from "@mui/material";
-import {
-  getUserProfile,
-  updateUserProfile,
-  getBlogPostById,
-  uploadImage,
-} from "../../api";
 import { PhotoCamera, Delete } from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
+import { getUserProfile, updateUserProfile, getBlogPostById, uploadImage } from "../../api";
 
 const ProfileContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -110,6 +105,13 @@ const UserProfile = () => {
     }
   };
 
+  const handleCancel = () => {
+    setEditing(false);
+    setBio(user.bio);
+    setAvatar(user.avatar);
+    setAvatarFile(null);
+  };
+
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
     setAvatarFile(file);
@@ -157,14 +159,24 @@ const UserProfile = () => {
           </Box>
         </Box>
         {editing ? (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSave}
-            disabled={uploading}
-          >
-            {uploading ? <CircularProgress size={24} /> : "Save"}
-          </Button>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              disabled={uploading}
+              sx={{ mr: 2 }}
+            >
+              {uploading ? <CircularProgress size={24} /> : "Save"}
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </Box>
         ) : (
           <Button
             variant="contained"
