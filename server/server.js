@@ -27,6 +27,10 @@ app.use('/api/posts', blogRoutes);
 app.use('/api/posts/user-blogs', blogRoutes);
 app.use('/api/posts/:id/comments', commentRoutes);
 app.use('/api/cloud', uploadRoute);
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'Health:- OKAY' });
+});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
