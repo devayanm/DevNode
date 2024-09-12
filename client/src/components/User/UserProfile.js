@@ -16,6 +16,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
 } from "@mui/material";
 import { PhotoCamera, Delete as DeleteIcon, Edit } from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
@@ -33,31 +34,56 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   padding: theme.spacing(4),
-  maxWidth: "800px",
+  maxWidth: "900px",
   margin: "auto",
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background.default,
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2),
+  },
 }));
 
-const ProfileHeader = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  marginBottom: theme.spacing(3),
+const ProfileHeader = styled(Grid)(({ theme }) => ({
   width: "100%",
+  marginBottom: theme.spacing(3),
   justifyContent: "space-between",
+  alignItems: "center",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    textAlign: "center",
+  },
+}));
+
+const AvatarStyled = styled(Avatar)(({ theme }) => ({
+  width: "120px",
+  height: "120px",
+  border: `4px solid ${theme.palette.primary.main}`,
+  boxShadow: theme.shadows[3],
+  transition: "transform 0.3s ease",
+  "&:hover": {
+    transform: "scale(1.1)",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "100px",
+    height: "100px",
+  },
 }));
 
 const BlogCard = styled(Card)(({ theme }) => ({
   display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: theme.spacing(2),
+  flexDirection: "column",
+  justifyContent: "space-between",
+  marginBottom: theme.spacing(3),
   padding: theme.spacing(2),
+  transition: "box-shadow 0.3s ease",
+  "&:hover": {
+    boxShadow: theme.shadows[6],
+  },
 }));
 
 const BlogActions = styled(CardActions)(({ theme }) => ({
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
 }));
 
 const CardContentStyled = styled(CardContent)(({ theme }) => ({
@@ -92,7 +118,6 @@ const UserProfile = () => {
         setBio(response.data.bio);
         setAvatar(response.data.avatar);
 
-        // Fetch blogs authored by the user
         const allBlogsResponse = await getAllBlogPosts();
         const userBlogs = allBlogsResponse.data.filter(
           (blog) => blog.author._id === response.data._id
@@ -196,52 +221,54 @@ const UserProfile = () => {
 
   return (
     <ProfileContainer>
-      <ProfileHeader>
-        <Box display="flex" alignItems="center">
-          <Avatar
-            alt="User Avatar"
-            src={avatar}
-            sx={{ width: 80, height: 80 }}
-          />
-          <Box ml={2}>
-            <Typography variant="h4" gutterBottom>
-              {user.name}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Email:</strong> {user.email}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Role:</strong> {user.role}
-            </Typography>
-          </Box>
-        </Box>
-        {editing ? (
-          <Box>
+      <ProfileHeader container spacing={2}>
+        <Grid item xs={12} sm={4}>
+          <AvatarStyled alt="User Avatar" src={avatar} />
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <Typography variant="h4" gutterBottom>
+            {user.name}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Email:</strong> {user.email}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Role:</strong> {user.role}
+          </Typography>
+          {editing ? (
+            <Box mt={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSave}
+                disabled={uploading}
+                sx={{ mr: 2 }}
+              >
+                {uploading ? <CircularProgress size={24} /> : "Save"}
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+            </Box>
+          ) : (
             <Button
               variant="contained"
               color="primary"
-              onClick={handleSave}
-              disabled={uploading}
-              sx={{ mr: 2 }}
+              sx={{ mt: 2 }}
+              onClick={() => setEditing(true)}
             >
-              {uploading ? <CircularProgress size={24} /> : "Save"}
+              Edit Profile
             </Button>
-            <Button variant="outlined" color="secondary" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </Box>
-        ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setEditing(true)}
-          >
-            Edit Profile
-          </Button>
-        )}
+          )}
+        </Grid>
       </ProfileHeader>
+
       {editing ? (
-        <Box width="100%" maxWidth="600px">
+        <Box width="100%" mt={3}>
           <TextField
             label="Bio"
             variant="outlined"
@@ -283,32 +310,31 @@ const UserProfile = () => {
           )}
         </Box>
       ) : (
-        <Box width="100%" maxWidth="600px">
+        <Box width="100%" mt={3}>
           <Typography variant="body1" gutterBottom>
-            <strong>Bio:</strong> {bio}
+            <strong>Bio:</strong> {user.bio || "No bio available."}
           </Typography>
         </Box>
       )}
-      <Box width="100%" mt={4}>
+
+      <Box mt={5} width="100%">
         <Typography variant="h5" gutterBottom>
-          My Blogs
+          My Blog Posts
         </Typography>
-        {blogs.length > 0 ? (
-          blogs.map((blog) => (
-            <BlogCard key={blog._id}>
-              <CardContentStyled>
-                <Typography variant="h6" component="div">
-                  {blog.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  <strong>Date:</strong>{" "}
-                  {new Date(blog.createdAt).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  <strong>Author:</strong> {blog.author.name}
-                </Typography>
-              </CardContentStyled>
-              <Box>
+        <Grid container spacing={3}>
+          {blogs.map((blog) => (
+            <Grid item xs={12} sm={6} md={4} key={blog._id}>
+              <BlogCard>
+                <CardContentStyled>
+                  <Typography variant="h6">{blog.title}</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Published on:{" "}
+                    {new Date(blog.createdAt).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2">
+                    Author: {blog.author.name}
+                  </Typography>
+                </CardContentStyled>
                 <BlogActions>
                   <IconButton
                     color="primary"
@@ -317,46 +343,53 @@ const UserProfile = () => {
                     <Edit />
                   </IconButton>
                   <IconButton
-                    color="error"
+                    color="secondary"
                     onClick={() => openDeleteDialog(blog)}
-                    sx={{ ml: 2 }}
                   >
                     <DeleteIcon />
                   </IconButton>
                 </BlogActions>
-              </Box>
-            </BlogCard>
-          ))
-        ) : (
-          <Typography>No blogs available</Typography>
-        )}
+              </BlogCard>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
-      <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
+
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={closeDeleteDialog}
+        aria-labelledby="delete-blog-dialog-title"
+      >
+        <DialogTitle id="delete-blog-dialog-title">
+          Delete Blog Post
+        </DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete this blog post? This action cannot
-            be undone.
+            Are you sure you want to delete the blog post titled "
+            {blogToDelete?.title}"? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDeleteDialog}>Cancel</Button>
+          <Button onClick={closeDeleteDialog} color="primary">
+            Cancel
+          </Button>
           <Button
-            onClick={() => {
-              if (blogToDelete) {
-                handleDeleteBlog(blogToDelete._id);
-              }
-            }}
-            color="error"
+            onClick={() => handleDeleteBlog(blogToDelete._id)}
+            color="secondary"
           >
             Delete
           </Button>
