@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import AuthForm from "./pages/AuthForm";
 import BlogPage from "./pages/BlogPage";
 import CreateBlogPage from "./pages/CreateBlogPage";
+import BlogUpdatePage from "./pages/BlogUpdatePage";
 import BlogReadingPage from "./pages/BlogReadingPage";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/create-blog" element={<CreateBlogPage />} />
+          <Route path="/posts/update/:postId" element={<BlogUpdatePage />} />
           <Route path="/posts/:postId" element={<BlogReadingPage />} />
         </Routes>
       </Layout>

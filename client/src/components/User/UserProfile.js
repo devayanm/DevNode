@@ -8,14 +8,25 @@ import {
   Avatar,
   CircularProgress,
   Card,
+  CardActions,
   CardContent,
-  CardMedia,
   IconButton,
   Snackbar,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
-import { PhotoCamera, Delete } from "@mui/icons-material";
+import { PhotoCamera, Delete as DeleteIcon, Edit } from "@mui/icons-material";
 import MuiAlert from "@mui/material/Alert";
-import { getUserProfile, updateUserProfile, getBlogPostById, uploadImage } from "../../api";
+import { useNavigate } from "react-router-dom";
+import {
+  getUserProfile,
+  updateUserProfile,
+  uploadImage,
+  getAllBlogPosts,
+  deleteBlogPost,
+} from "../../api";
 
 const ProfileContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -38,7 +49,19 @@ const ProfileHeader = styled(Box)(({ theme }) => ({
 }));
 
 const BlogCard = styled(Card)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
   marginBottom: theme.spacing(2),
+  padding: theme.spacing(2),
+}));
+
+const BlogActions = styled(CardActions)(({ theme }) => ({
+  justifyContent: "flex-end",
+}));
+
+const CardContentStyled = styled(CardContent)(({ theme }) => ({
+  flex: 1,
 }));
 
 const Alert = React.forwardRef((props, ref) => (
@@ -57,6 +80,9 @@ const UserProfile = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -66,11 +92,12 @@ const UserProfile = () => {
         setBio(response.data.bio);
         setAvatar(response.data.avatar);
 
-        // Fetch user's blogs
-        const blogIds = response.data.blogs || [];
-        const blogPromises = blogIds.map((id) => getBlogPostById(id));
-        const blogResponses = await Promise.all(blogPromises);
-        setBlogs(blogResponses.map((res) => res.data));
+        // Fetch blogs authored by the user
+        const allBlogsResponse = await getAllBlogPosts();
+        const userBlogs = allBlogsResponse.data.filter(
+          (blog) => blog.author._id === response.data._id
+        );
+        setBlogs(userBlogs);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -133,6 +160,36 @@ const UserProfile = () => {
     setSnackbarOpen(false);
   };
 
+  const handleEditBlog = (postId) => {
+    navigate(`/posts/update/${postId}`);
+  };
+
+  const handleDeleteBlog = async (blogId) => {
+    try {
+      await deleteBlogPost(blogId);
+      setSnackbarMessage("Blog post deleted successfully!");
+      setSnackbarSeverity("success");
+      setBlogs(blogs.filter((blog) => blog._id !== blogId));
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+      setSnackbarMessage("Failed to delete blog post.");
+      setSnackbarSeverity("error");
+    } finally {
+      setDeleteDialogOpen(false);
+      setSnackbarOpen(true);
+    }
+  };
+
+  const openDeleteDialog = (blog) => {
+    setBlogToDelete(blog);
+    setDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setBlogToDelete(null);
+  };
+
   if (loading) {
     return <CircularProgress />;
   }
@@ -169,11 +226,7 @@ const UserProfile = () => {
             >
               {uploading ? <CircularProgress size={24} /> : "Save"}
             </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleCancel}
-            >
+            <Button variant="outlined" color="secondary" onClick={handleCancel}>
               Cancel
             </Button>
           </Box>
@@ -215,7 +268,7 @@ const UserProfile = () => {
             </Button>
             {avatar && (
               <IconButton onClick={handleRemoveAvatar} sx={{ ml: 2 }}>
-                <Delete />
+                <DeleteIcon />
               </IconButton>
             )}
           </Box>
@@ -243,20 +296,35 @@ const UserProfile = () => {
         {blogs.length > 0 ? (
           blogs.map((blog) => (
             <BlogCard key={blog._id}>
-              <CardMedia
-                component="img"
-                height="140"
-                image={blog.coverImage || "default-cover.jpg"}
-                alt={blog.title}
-              />
-              <CardContent>
+              <CardContentStyled>
                 <Typography variant="h6" component="div">
                   {blog.title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {blog.excerpt || "No excerpt available"}
+                <Typography variant="body2" color="textSecondary">
+                  <strong>Date:</strong>{" "}
+                  {new Date(blog.createdAt).toLocaleDateString()}
                 </Typography>
-              </CardContent>
+                <Typography variant="body2" color="textSecondary">
+                  <strong>Author:</strong> {blog.author.name}
+                </Typography>
+              </CardContentStyled>
+              <Box>
+                <BlogActions>
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleEditBlog(blog._id)}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    color="error"
+                    onClick={() => openDeleteDialog(blog)}
+                    sx={{ ml: 2 }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </BlogActions>
+              </Box>
             </BlogCard>
           ))
         ) : (
@@ -272,6 +340,28 @@ const UserProfile = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <Dialog open={deleteDialogOpen} onClose={closeDeleteDialog}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to delete this blog post? This action cannot
+            be undone.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteDialog}>Cancel</Button>
+          <Button
+            onClick={() => {
+              if (blogToDelete) {
+                handleDeleteBlog(blogToDelete._id);
+              }
+            }}
+            color="error"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ProfileContainer>
   );
 };

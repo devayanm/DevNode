@@ -42,6 +42,19 @@ const getBlogPostById = async (req, res) => {
   }
 };
 
+const getUserBlogs = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const blogs = await BlogPost.find({ author: userId }).populate(
+      "author",
+      "name avatar"
+    );
+    res.json(blogs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const updateBlogPost = async (req, res) => {
   const { title, content, tags } = req.body;
   try {
@@ -76,7 +89,7 @@ const deleteBlogPost = async (req, res) => {
       return res.status(401).json({ message: "Not authorized" });
     }
 
-    await blogPost.remove();
+    await BlogPost.deleteOne({ _id: req.params.id });
     res.json({ message: "Blog post removed" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -87,6 +100,7 @@ module.exports = {
   createBlogPost,
   getAllBlogPosts,
   getBlogPostById,
+  getUserBlogs,
   updateBlogPost,
   deleteBlogPost,
 };

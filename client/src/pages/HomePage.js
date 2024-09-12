@@ -6,12 +6,14 @@ import {
   Grid,
   Card,
   CardContent,
-  CardMedia,
   Box,
   CircularProgress,
   Alert,
-  Paper,
+  TextField,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
+import Select from "react-select";
 import { getAllBlogPosts } from "../api";
 import heroImage from "../assets/hero.jpg";
 
@@ -19,6 +21,21 @@ const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [categories, setCategories] = useState([
+    { label: "JavaScript", value: "JavaScript" },
+    { label: "React", value: "React" },
+    { label: "CSS", value: "CSS" },
+  ]);
+  const [tags, setTags] = useState([
+    { label: "Tutorial", value: "Tutorial" },
+    { label: "Web Dev", value: "Web Dev" },
+    { label: "Frontend", value: "Frontend" },
+  ]);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,7 +44,10 @@ const HomePage = () => {
         if (response.data.length === 0) {
           setError("No posts available");
         } else {
-          setPosts(response.data);
+          const sortedPosts = response.data.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          setPosts(sortedPosts.slice(0, 6));
         }
       } catch (err) {
         setError("Error fetching posts");
@@ -37,7 +57,31 @@ const HomePage = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [selectedCategory, selectedTag]);
+
+  const handleCategoryChange = (selectedOption) => {
+    setSelectedCategory(selectedOption);
+  };
+
+  const handleTagChange = (selectedOption) => {
+    setSelectedTag(selectedOption);
+  };
+
+  const handleCategoryCreate = (inputValue) => {
+    if (inputValue && !categories.find((cat) => cat.label === inputValue)) {
+      const newCategory = { label: inputValue, value: inputValue };
+      setCategories((prevCategories) => [...prevCategories, newCategory]);
+      setSelectedCategory(newCategory);
+    }
+  };
+
+  const handleTagCreate = (inputValue) => {
+    if (inputValue && !tags.find((tag) => tag.label === inputValue)) {
+      const newTag = { label: inputValue, value: inputValue };
+      setTags((prevTags) => [...prevTags, newTag]);
+      setSelectedTag(newTag);
+    }
+  };
 
   return (
     <Container maxWidth="lg">
@@ -84,211 +128,142 @@ const HomePage = () => {
           >
             Join us on a journey of discovery in the world of development.
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            href="/blog"
-            sx={{ borderRadius: "12px", fontWeight: "bold" }}
-          >
-            Get Started
-          </Button>
         </Box>
       </Box>
+      {/* Search Section */}
+      <Box
+        my={4}
+        sx={{
+          textAlign: "center",
+          mb: 4,
+        }}
+      >
+        <TextField
+          variant="outlined"
+          placeholder="Search posts..."
+          fullWidth
+          sx={{ mb: 4, maxWidth: "600px" }}
+        />
+      </Box>
 
-      <Grid container spacing={3}>
-        {/* Sidebar */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 3, mb: 6 }}>
-            <Typography
-              variant="h5"
-              gutterBottom
-              sx={{
-                borderBottom: "3px solid #1976d2",
-                display: "inline-block",
-                mb: 2,
-                fontWeight: "bold",
-              }}
-            >
-              Categories
-            </Typography>
-            <ul style={{ listStyleType: "none", padding: 0 }}>
-              <li>
-                <Button
-                  href="/category/javascript"
-                  sx={{ color: "#1976d2", textTransform: "capitalize" }}
-                >
-                  JavaScript
-                </Button>
-              </li>
-              <li>
-                <Button
-                  href="/category/react"
-                  sx={{ color: "#1976d2", textTransform: "capitalize" }}
-                >
-                  React
-                </Button>
-              </li>
-              <li>
-                <Button
-                  href="/category/css"
-                  sx={{ color: "#1976d2", textTransform: "capitalize" }}
-                >
-                  CSS
-                </Button>
-              </li>
-              {/* Add more categories */}
-            </ul>
+      {/* Filters Section */}
+      <Box
+        mb={6}
+        sx={{
+          display: "flex",
+          flexDirection: isSmallScreen ? "column" : "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        {/* Category Filter */}
+        <Select
+          isClearable
+          isSearchable
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          onCreateOption={handleCategoryCreate}
+          options={categories}
+          placeholder="Select or type new category..."
+          styles={{
+            container: (provided) => ({
+              ...provided,
+              width: isSmallScreen ? "90%" : 300,
+            }),
+          }}
+        />
 
-            <Typography
-              variant="h5"
-              gutterBottom
-              sx={{
-                borderBottom: "3px solid #1976d2",
-                display: "inline-block",
-                mt: 4,
-                mb: 2,
-                fontWeight: "bold",
-              }}
-            >
-              Tags
-            </Typography>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-              <Button
-                variant="outlined"
-                size="small"
-                href="/tag/tutorial"
-                sx={{ borderRadius: "12px" }}
-              >
-                Tutorial
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                href="/tag/webdev"
-                sx={{ borderRadius: "12px" }}
-              >
-                Web Dev
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                href="/tag/frontend"
-                sx={{ borderRadius: "12px" }}
-              >
-                Frontend
-              </Button>
-              {/* Add more tags */}
-            </Box>
-          </Paper>
-        </Grid>
+        {/* Tag Filter */}
+        <Select
+          isClearable
+          isSearchable
+          value={selectedTag}
+          onChange={handleTagChange}
+          onCreateOption={handleTagCreate}
+          options={tags}
+          placeholder="Select or type new tag..."
+          styles={{
+            container: (provided) => ({
+              ...provided,
+              width: isSmallScreen ? "90%" : 300,
+            }),
+          }}
+        />
+      </Box>
 
-        {/* Main Content */}
-        <Grid item xs={12} md={8}>
-          {/* Posts Section */}
-          <Box mb={6}>
-            <Typography
-              variant="h4"
-              gutterBottom
-              sx={{
-                borderBottom: "3px solid #1976d2",
-                display: "inline-block",
-                mb: 4,
-                fontWeight: "bold",
-                color: "#333",
-              }}
-            >
-              Latest Posts
-            </Typography>
-            {loading ? (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height="200px"
-              >
-                <CircularProgress />
-              </Box>
-            ) : error ? (
-              <Alert severity="error">{error}</Alert>
-            ) : (
-              <Grid container spacing={4}>
-                {posts.map((post) => (
-                  <Grid item xs={12} sm={6} md={4} key={post._id}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        boxShadow: 3,
-                        transition: "transform 0.3s, box-shadow 0.3s",
-                        borderRadius: "12px",
-                        overflow: "hidden",
-                        "&:hover": {
-                          transform: "scale(1.03)",
-                          boxShadow: 6,
-                        },
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        sx={{
-                          height: "200px",
-                          width: "100%",
-                          objectFit: "cover",
-                        }}
-                        image={
-                          post.image || "https://via.placeholder.com/400x200"
-                        }
-                        alt={post.title}
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6" component="h2" gutterBottom>
-                          {post.title}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          paragraph
-                        >
-                          {post.excerpt}
-                        </Typography>
-                        <Box
-                          display="flex"
-                          justifyContent="space-between"
-                          alignItems="center"
-                        >
-                          <Typography variant="body2" color="textSecondary">
-                            {new Date(post.createdAt).toLocaleDateString()}
-                          </Typography>
-                          <Button
-                            size="small"
-                            color="primary"
-                            href={`/posts/${post._id}`}
-                            sx={{ fontWeight: "bold" }}
-                          >
-                            Read More &rarr;
-                          </Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            )}
-            <Box sx={{ textAlign: "center", mt: 4 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                href="/blog"
-                sx={{ fontWeight: "bold", borderRadius: "12px" }}
-              >
-                View All Posts
-              </Button>
-            </Box>
+      {/* Latest Posts Section */}
+      <Grid container spacing={4}>
+        {loading ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="200px"
+          >
+            <CircularProgress />
           </Box>
-        </Grid>
+        ) : error ? (
+          <Alert severity="error">{error}</Alert>
+        ) : (
+          posts.map((post) => (
+            <Grid item xs={12} sm={6} md={4} key={post._id}>
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  boxShadow: 3,
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography variant="h6" component="h2" gutterBottom>
+                    {post.title}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" paragraph>
+                    {post.excerpt}
+                  </Typography>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography variant="body2" color="textSecondary">
+                      {new Date(post.createdAt).toLocaleDateString()}
+                    </Typography>
+                    <Button
+                      size="small"
+                      color="primary"
+                      href={`/posts/${post._id}`}
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      Read More &rarr;
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))
+        )}
       </Grid>
+
+      <Box sx={{ textAlign: "center", mt: 6 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          href="/blog"
+          sx={{ fontWeight: "bold", borderRadius: "12px" }}
+        >
+          View All Posts
+        </Button>
+      </Box>
     </Container>
   );
 };

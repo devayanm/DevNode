@@ -24,6 +24,7 @@ const uploadRoute = require('./routes/uploadRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/posts', blogRoutes);
+app.use('/api/posts/user-blogs', blogRoutes);
 app.use('/api/posts/:id/comments', commentRoutes);
 app.use('/api/cloud', uploadRoute);
 
